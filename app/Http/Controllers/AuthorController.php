@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
-use App\Models\Isbn;
 use Illuminate\Http\Request;
+use App\Models\Book;
+use App\Models\Author;
 
-class BookController extends Controller
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Book $book)
+    public function index()
     {
-        $booksList = $book->all();
+        $authorsList = Author::all();
 
-        return view('books/list', [
-           'booksList' => $booksList
+        return view('authors/list', [
+           'authorsList' => $authorsList
         ]);
     }
 
@@ -27,22 +27,25 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $book = new Book();
-        $book->name = "Czarny Dom";
-        $book->year = 2010;
-        $book->publication_place = "Warszawa";
-        $book->pages = 648;
-        $book->price = 59.99;
-        $book->save();
+        $author = new Author();
+        $author->lastname = "Straub";
+        $author->firstname = "Peter";
+        $author->birthday = "1943-03-02";
+        $author->genres = "horrory, thrillery";
+        $author->save();
 
-        $isbn = new Isbn([
-            'number' => '123456799',
-            'issued_by' => "Wydawca1",
-            'issued_on' => "2010-01-20"
-        ]);
-        $book->isbn()->save($isbn);
+        $authorSecond = new Author();
+        $authorSecond->lastname = "King";
+        $authorSecond->firstname = "Stephen";
+        $authorSecond->birthday = "1947-09-21";
+        $authorSecond->genres = "horrory, thrillery";
+        $authorSecond->save();
+
+        $czarnyDom = Book::where('name', 'Czarny Dom')->first();
+        $czarnyDom->authors()->attach($author);
+        $czarnyDom->authors()->attach($authorSecond);
 
         return redirect('books');
     }
@@ -66,10 +69,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::find($id);
-        return view('books/show', [
-            'book' => $book
-        ]);
+        //
     }
 
     /**
@@ -80,16 +80,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = Book::find($id);
-
-        $book->name = "Quo Vadis";
-        $book->year = 2001;
-        $book->publication_place = "Warszawa";
-        $book->pages = 650;
-        $book->price = 59.99;
-        $book->save();
-
-        return redirect('books');
+        //
     }
 
     /**
@@ -112,8 +103,6 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        $book = Book::find($id);
-        $book->delete();
-        return redirect('books');
+        //
     }
 }

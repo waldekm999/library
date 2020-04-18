@@ -48,6 +48,20 @@
                             <td>{{ $book->isbn->issued_by }}</td>
                         </tr>
                     @endisset
+                @isset($book->authors)
+                    <tr>
+                        <td>Autorzy</td>
+                        <td>
+                        <ul>
+                            @foreach($book->authors as $author)
+                                <li>
+                                    {{ $author->lastname }} {{ $author->firstname }}
+                                </li>
+                            @endforeach
+                        </ul>
+                        </td>
+                    </tr>
+                @endisset
 
             </table>
             @endisset

@@ -23,6 +23,9 @@
             <li>
                <a class="nav-link" href="{{ URL::to('loans') }}">Wypożyczenia</a>
             </li>
+            <li>
+                <a href="{{ URL::to('authors') }}" class="nav-link">Autorzy</a>
+            </li>
         </ul>
     </div>
 </nav>
