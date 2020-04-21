@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Isbn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\BookRepository;
 
 class BookController extends Controller
 {
@@ -14,9 +15,9 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Book $book)
+    public function index(BookRepository $book)
     {
-        $booksList = $book->all();
+        $booksList = $book->getAll();
 
         return view('books/list', [
            'booksList' => $booksList
@@ -28,21 +29,25 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, BookRepository $book)
     {
-        $book = new Book();
-        $book->name = "Czarny Dom";
-        $book->year = 2010;
-        $book->publication_place = "Warszawa";
-        $book->pages = 648;
-        $book->price = 59.99;
-        $book->save();
+        $data = [
+            "name" => "Czarny Dom",
+            "year" => 2010,
+            "publication_place" => "Warszawa",
+            "pages" => 648,
+            "price" => 59.99,
+        ];
+
+        $booksList = $book->create($data);
 
         $isbn = new Isbn([
             'number' => '123456799',
             'issued_by' => "Wydawca1",
             'issued_on' => "2010-01-20"
         ]);
+
+
         $book->isbn()->save($isbn);
 
         return redirect('books');
@@ -65,9 +70,9 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(BookRepository $book, $id)
     {
-        $book = Book::find($id);
+        $book = $book->find($id);
         return view('books/show', [
             'book' => $book
         ]);
@@ -79,16 +84,17 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(BookRepository $book, $id)
     {
-        $book = Book::find($id);
+        $data = [
+            "name" => "Quo Vadis",
+            "year" => 2001,
+            "publication_place" => "Warszawa",
+            "pages" => 650,
+            "price" => 59.99,
+        ];
 
-        $book->name = "Quo Vadis";
-        $book->year = 2001;
-        $book->publication_place = "Warszawa";
-        $book->pages = 650;
-        $book->price = 59.99;
-        $book->save();
+        $booksList = $book->update($data, $id);
 
         return redirect('books');
     }
@@ -111,26 +117,37 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BookRepository $book, $id)
     {
-        $book = Book::find($id);
-        $book->delete();
+        $booksList = $book->delete($id);
         return redirect('books');
     }
 
-    public function cheapest(Book $book)
+    public function cheapest(BookRepository $book)
     {
-        $booksList = DB::table('books')->orderBy('price', 'asc')->limit(3)->get();
+        $booksList = $book->cheapest();
+
         return view('books/list', [
            'booksList' => $booksList
         ]);
     }
 
-    public function longest(Book $book)
+    public function longest(BookRepository $book)
     {
-        $booksList = DB::table('books')->orderBy('pages', 'desc')->limit(3)->get();
+        $booksList = $book->longest();
+
         return view('books/list', [
            'booksList' => $booksList
         ]);
+    }
+
+    public function search(Request $request, BookRepository $book)
+    {
+       $q = $request->input('q',"");
+       $booksList = $book->search($q);
+
+       return view('books/list', [
+          'booksList' => $booksList
+       ]);
     }
 }
