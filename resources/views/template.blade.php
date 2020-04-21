@@ -23,13 +23,18 @@
                     <a class="dropdown-item" href="{{ URL::to('books/cheapest') }}">Top 3 najtańszych</a>
                     <a class="dropdown-item" href="{{ URL::to('books/longest') }}">Top 3 najdłuższych</a>
                     <a class="dropdown-item" href="{{ URL::to('books') }}">Wszystkie</a>
+                    <a class="dropdown-item" href="{{ URL::to('books/create') }}">Dodaj nową</a>
                 </div>
             </li>
             <li>
                <a class="nav-link" href="{{ URL::to('loans') }}">Wypożyczenia</a>
             </li>
-            <li>
-                <a href="{{ URL::to('authors') }}" class="nav-link">Autorzy</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{{ URL::to('authors') }}" class="nav-link">Autorzy</a>
+                <div class="dropdown-menu">
+                    <a href="{{ URL::to('authors') }}" class="dropdown-item">Wszyscy</a>
+                    <a href="{{ URL::to('authors/create') }}" class="dropdown-item">Dodaj nowego</a>
+                </div>
             </li>
         </ul>
     </div>
