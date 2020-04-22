@@ -28,16 +28,10 @@ class LoanController extends Controller
      */
     public function create()
     {
-        $hobbit = Book::where('name','Hobbit')->first();
-
-        $loan = new Loan();
-        $loan->client = "Tadeusz Jakacki, Jaworowa 13, 00-900 Warszawa, 600 111 222";
-        $loan->loaned_on = "2020-04-10";
-        $loan->estimated_on = "2020-04-24";
-        $hobbit->loans()->save($loan);
-        $loan->save;
-
-        return redirect('books');
+        $books = Book::all();
+        return view('loans/create', [
+           'books' => $books
+        ]);
     }
 
     /**
@@ -48,7 +42,15 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $book = Book::find($request->input('book_id'));
+        $data = $request->all();
+
+        $loan = new Loan();
+        $loan->fill($data);
+        $book->loans()->save($loan);
+        $loan->save();
+
+        return redirect('loans');
     }
 
     /**
