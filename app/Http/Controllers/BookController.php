@@ -58,9 +58,9 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(BookRepository $book, $id)
+    public function show(BookRepository $bookRepository, $id)
     {
-        $book = $book->find($id);
+        $book = $bookRepository->find($id);
         return view('books/show', [
             'book' => $book
         ]);
@@ -72,19 +72,14 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(BookRepository $book, $id)
+    public function edit(BookRepository $bookRepository, $id)
     {
-        $data = [
-            "name" => "Quo Vadis",
-            "year" => 2001,
-            "publication_place" => "Warszawa",
-            "pages" => 650,
-            "price" => 59.99,
-        ];
-
-        $booksList = $book->update($data, $id);
-
-        return redirect('books');
+        $book = $bookRepository->find($id);
+        $authors = Author::all();
+        return view('books/edit', [
+            'book' => $book,
+            'authors' => $authors
+        ]);
     }
 
     /**
@@ -94,9 +89,12 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,BookRepository $bookRepository, $id)
     {
-        //
+        $data = $request->all();
+        $booksList = $bookRepository->update($data, $id);
+
+        return redirect('books');
     }
 
     /**

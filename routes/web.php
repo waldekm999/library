@@ -21,6 +21,7 @@ Route::get('books/cheapest', 'BookController@cheapest');
 Route::get('books/longest', 'BookController@longest');
 Route::get('books/search', 'BookController@search');
 Route::resource('books', 'BookController');
+Route::post('books/{id}/update', 'BookController@update');
 Route::get('books/{id}/delete',"BookController@destroy");
 
 Route::resource('loans', 'LoanController');
