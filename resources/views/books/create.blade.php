@@ -19,6 +19,14 @@
         <form action="{{ action('BookController@store') }}" method="post" role="form">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <div class="form-group">
+                <label for="author_id[]">Autor</label>
+                <select type="text" class="form-control" name="author_id[]">
+                    @foreach($authors as $author)
+                        <option value="{{ $author->id }}">{{ $author->lastname }} {{ $author->firstname }}</option>
+                        @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="name">Tytuł książki</label>
                 <input type="text" class="form-control" name="name" />
             </div>

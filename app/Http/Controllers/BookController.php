@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Isbn;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\BookRepository;
@@ -29,9 +30,12 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(BookRepository $book)
     {
-        return view('books/create');
+        $authors = Author::all();
+        return view('books/create', [
+            'authors' => $authors
+        ]);
     }
 
     /**

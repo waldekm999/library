@@ -26,8 +26,12 @@
                     <a class="dropdown-item" href="{{ URL::to('books/create') }}">Dodaj nową</a>
                 </div>
             </li>
-            <li>
-               <a class="nav-link" href="{{ URL::to('loans') }}">Wypożyczenia</a>
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{{ URL::to('loans') }}">Wypożyczenia</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ URL::to('loans') }}">Wszystkie</a>
+                    <a class="dropdown-item" href="{{ 'loans/create' }}">Dodaj nowe</a>
+                </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{{ URL::to('authors') }}" class="nav-link">Autorzy</a>
