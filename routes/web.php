@@ -27,3 +27,8 @@ Route::get('books/{id}/delete',"BookController@destroy");
 Route::resource('loans', 'LoanController');
 
 Route::resource('authors', 'AuthorController');
+
+Route::get('language/{locale}', function ($locale) {
+    session(['locale' => $locale]);
+    return redirect()->action('BookController@create');
+});
