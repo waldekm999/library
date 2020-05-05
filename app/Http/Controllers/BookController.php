@@ -48,11 +48,11 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBook $request, BookRepository $book)
+    public function store(StoreBook $request, Book $book)
     {
         $data = $request->all();
         $bookList = $book->create($data);
-        event(new BookCreated($book));
+        //event(new BookCreated($book));
 
         return redirect('books');
     }

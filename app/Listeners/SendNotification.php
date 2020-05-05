@@ -2,9 +2,12 @@
 
 namespace App\Listeners;
 
+use App\Mail\BookCreated as BookCreatedMail;
 use App\Events\BookCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
+
 
 class SendNotification
 {
@@ -26,6 +29,7 @@ class SendNotification
      */
     public function handle(BookCreated $event)
     {
-        \Log::info("Email powinien zostać wysłany! Książka " .$event->book->name . " została dodana");
+        Mail::to('waldekm999@hotmail.com')->send(new BookCreatedMail($event->book));
+        \Log::info("Email został wysłany!");
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Book;
+use App\Repositories\BookRepository;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
