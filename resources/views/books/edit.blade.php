@@ -7,7 +7,7 @@
  */
 ?>
 
-@extends('template')
+@extends('layouts/app')
 
 @section('title')
     Edycja książki
